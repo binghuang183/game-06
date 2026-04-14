@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8" />
+<title>戒烟打卡助手</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<style>
+*{margin:0;padding:0;box-sizing:border-box;font-family:system-ui, -apple-system, sans-serif}
+body{background:#f7f8fa;padding:20px;max-width:500px;margin:0 auto;color:#333}
+.card{background:#fff;border-radius:18px;padding:24px 26px;box-shadow:0 4px 12px rgba(0,0,0,0.08);margin-bottom:20px}
+h1{font-size:24px;text-align:center;margin-bottom:24px;color:#222}
+h2{font-size:18px;margin:16px 0 10px;color:#444}
+input{width:100%;padding:12px 14px;border:1px solid #e1e4e8;border-radius:12px;margin-bottom:10px;font-size:15px}
+button{width:100%;padding:14px;background:#16a34a;color:#fff;border:none;border-radius:14px;font-size:16px;font-weight:500;margin-top:10px}
+.result{line-height:1.8;font-size:15px;margin-top:16px}
+.health{background:#f0fdf4;border-left:4px solid #16a34a;padding:12px 14px;border-radius:8px;margin:10px 0}
+.urge{background:#fff7ed;border-left:4px solid #f97316;padding:12px 14px;border-radius:8px;margin:10px 0}
+.urge-timer{font-size:20px;font-weight:bold;color:#f97316;margin:8px 0}
+.gray{color:#666}
+</style>
+</head>
+<body>
+<div class="card">
+  <h1>🚭 戒烟打卡助手</h1>
+
+  <input type="date" id="startDate" placeholder="开始戒烟日期">
+  <input type="number" id="pricePerPack" placeholder="每包烟价格（元）">
+  <input type="number" id="cigPerDay" placeholder="每天抽几根">
+
+  <button onclick="startQuit()">开始计算</button>
+
+  <div class="result" id="result"></div>
+
+  <div class="health" id="health"></div>
+  <div class="urge" id="urgeBox" style="display:none">
+    <div>烟瘾一般只持续 3～5 分钟，坚持一下就过去了</div>
+    <div class="urge-timer" id="urgeTimer">03:00</div>
+    <button onclick="startUrgeTimer()" style="background:#f97316;margin-top:6px">开始克制烟瘾</button>
+  </div>
+</div>
+
+<script>
+let urgeInterval;
+function $(id){return document.getElementById(id)}
+
+function startQuit(){
+  let start = new Date($("startDate").value);
+  let now = new Date();
+  let days = Math.floor((now - start) / 86400000);
+  if(days < 0) days = 0;
+
+  let pack = Number($("pricePerPack").value) || 20;
+  let perDay = Number($("cigPerDay").value) || 20;
+  let perCig = pack / 20;
+  let totalCig = days * perDay;
+  let save = totalCig * perCig;
+
+  // 寿命预估（粗略）
+  let lifeAdd = (totalCig * 11 / 60 / 24).toFixed(1);
+
+  $("result").innerHTML = 
+  `✅ 坚持戒烟：${days} 天<br>
+  🚬 少抽香烟：${totalCig} 根<br>
+  💰 已省下：${save.toFixed(2)} 元<br>
+  ⏱ 预计延长寿命：${lifeAdd} 天`;
+
+  showHealth(days);
+  $("urgeBox").style.display = "block";
+}
+
+function showHealth(days){
+  let msg = "";
+  if(days === 0) msg = "刚开始戒烟，身体正在快速恢复中";
+  else if(days <= 1) msg = "20分钟：血压心率恢复正常<br>12小时：血液一氧化碳恢复正常";
+  else if(days <= 2) msg = "24小时：心脏病风险开始下降";
+  else if(days <= 4) msg = "2～3天：呼吸更顺畅，味觉嗅觉开始恢复";
+  else if(days <= 90) msg = "2周～3个月：循环改善，肺功能提升";
+  else if(days <= 365) msg = "1年：心脏病风险减半";
+  else if(days <= 365*5) msg = "5年：中风风险接近不吸烟者";
+  else msg = "10年：肺癌风险减半，身体基本恢复健康";
+
+  $("health").innerHTML = `<strong>身体恢复进度：</strong><br>${msg}`;
+}
+
+function startUrgeTimer(){
+  clearInterval(urgeInterval);
+  let sec = 180;
+  updateTimer(sec);
+  urgeInterval = setInterval(()=>{
+    sec--;
+    if(sec <= 0){
+      clearInterval(urgeInterval);
+      $("urgeTimer").textContent = "烟瘾已过！";
+    }else{
+      updateTimer(sec);
+    }
+  },1000);
+}
+
+function updateTimer(s){
+  let m = Math.floor(s/60).toString().padStart(2,'0');
+  let ss = (s%60).toString().padStart(2,'0');
+  $("urgeTimer").textContent = `${m}:${ss}`;
+}
+</script>
+</body>
+</html>
