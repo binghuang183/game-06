@@ -1,106 +1,495 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
-<meta charset="UTF-8" />
-<title>戒烟打卡助手</title>
-<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>工具激活</title>
 <style>
-*{margin:0;padding:0;box-sizing:border-box;font-family:system-ui, -apple-system, sans-serif}
-body{background:#f7f8fa;padding:20px;max-width:500px;margin:0 auto;color:#333}
-.card{background:#fff;border-radius:18px;padding:24px 26px;box-shadow:0 4px 12px rgba(0,0,0,0.08);margin-bottom:20px}
-h1{font-size:24px;text-align:center;margin-bottom:24px;color:#222}
-h2{font-size:18px;margin:16px 0 10px;color:#444}
-input{width:100%;padding:12px 14px;border:1px solid #e1e4e8;border-radius:12px;margin-bottom:10px;font-size:15px}
-button{width:100%;padding:14px;background:#16a34a;color:#fff;border:none;border-radius:14px;font-size:16px;font-weight:500;margin-top:10px}
-.result{line-height:1.8;font-size:15px;margin-top:16px}
-.health{background:#f0fdf4;border-left:4px solid #16a34a;padding:12px 14px;border-radius:8px;margin:10px 0}
-.urge{background:#fff7ed;border-left:4px solid #f97316;padding:12px 14px;border-radius:8px;margin:10px 0}
-.urge-timer{font-size:20px;font-weight:bold;color:#f97316;margin:8px 0}
-.gray{color:#666}
+*{
+  box-sizing:border-box;
+  margin:0;
+  padding:0;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+}
+html,body{
+  width:100%;
+  height:100%;
+  background: linear-gradient(135deg, #f6f9fc 0%, #eef2f7 100%);
+}
+body{
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  padding: 20px;
+}
+
+.activate-box{
+  background:#fff;
+  border-radius:20px;
+  box-shadow:0 12px 35px rgba(0,0,0,0.06);
+  padding:44px 36px;
+  width:100%;
+  max-width:420px;
+  text-align:center;
+}
+.activate-box h2{
+  font-size:24px;
+  margin-bottom:10px;
+  color:#1f2329;
+  font-weight:600;
+}
+.activate-box p{
+  color:#6e7683;
+  margin-bottom:32px;
+  font-size:15px;
+  line-height:1.5;
+}
+
+input{
+  width:100%;
+  padding:16px 18px;
+  border:1px solid #e2e8f0;
+  border-radius:12px;
+  font-size:15px;
+  margin-bottom:18px;
+  transition: all 0.2s;
+  outline:none;
+  text-align:center;
+  letter-spacing:1px;
+}
+input:focus{
+  border-color:#2d6fff;
+  box-shadow:0 0 0 3px rgba(45,111,255,0.1);
+}
+
+button{
+  width:100%;
+  padding:16px;
+  background:#2d6fff;
+  color:white;
+  border:none;
+  border-radius:12px;
+  font-size:16px;
+  font-weight:500;
+  cursor:pointer;
+  margin-bottom:12px;
+  transition: background 0.2s;
+}
+button:hover{
+  background:#2563e0;
+}
+.btn-preview{
+  background:#f1f5f9;
+  color:#4e5969;
+}
+.btn-preview:hover{
+  background:#e2e8f0;
+}
+button:disabled{
+  opacity:0.5;
+  cursor:not-allowed;
+}
+
+.tip{
+  margin-top:20px;
+  text-align:center;
+  font-size:14px;
+  color:#ff4444;
+  font-weight:500;
+  min-height:18px;
+}
+.tip.success{
+  color:#00b96b;
+}
+
+#mainContent{
+  display:none;
+  position:fixed;
+  top:0;
+  left:0;
+  width:100vw;
+  height:100vh;
+  background:#fff;
+  padding:40px 20px;
+  overflow:auto;
+}
 </style>
 </head>
+
 <body>
-<div class="card">
-  <h1>🚭 戒烟打卡助手</h1>
 
-  <input type="date" id="startDate" placeholder="开始戒烟日期">
-  <input type="number" id="pricePerPack" placeholder="每包烟价格（元）">
-  <input type="number" id="cigPerDay" placeholder="每天抽几根">
-
-  <button onclick="startQuit()">开始计算</button>
-
-  <div class="result" id="result"></div>
-
-  <div class="health" id="health"></div>
-  <div class="urge" id="urgeBox" style="display:none">
-    <div>烟瘾一般只持续 3～5 分钟，坚持一下就过去了</div>
-    <div class="urge-timer" id="urgeTimer">03:00</div>
-    <button onclick="startUrgeTimer()" style="background:#f97316;margin-top:6px">开始克制烟瘾</button>
+<div id="activatePanel">
+  <div class="activate-box">
+    <h2>工具激活</h2>
+    <p>请输入激活码以解锁全部功能</p >
+    <input type="text" id="codeInput" placeholder="请输入激活码" autocomplete="off">
+    <button onclick="doActive()">立即激活</button>
+    <button class="btn-preview" id="previewBtn" onclick="startPreview()">试用5秒预览</button>
+    <div id="tip" class="tip"></div>
   </div>
 </div>
 
+<div id="mainContent">
+  <h2>已激活 · 正常使用</h2>
+  <br>
+  <p><!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<title>戒烟助手·终极版</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<style>
+*{margin:0;padding:0;box-sizing:border-box;font-family:system-ui,-apple-system,Segoe UI,Roboto}
+body{background:#f7f8fa;color:#222;padding:20px;max-width:500px;margin:0 auto;transition:.3s}
+.card{background:#fff;border-radius:20px;padding:24px;margin-bottom:20px;box-shadow:0 4px 12px rgba(0,0,0,0.08)}
+h1{font-size:24px;margin-bottom:16px;text-align:center}
+h2{font-size:18px;margin:14px 0 8px}
+input,button{width:100%;padding:12px;border-radius:12px;border:1px solid #ddd;margin:6px 0;font-size:16px}
+button{background:#4CD964;color:#fff;border:none;font-weight:600;cursor:pointer}
+.sec-btn{background:#ddd;color:#333}
+.danger{background:#ff3b30}
+.result{line-height:1.8;font-size:16px}
+.quote{font-style:italic;color:#666;text-align:center;margin:10px 0}
+.timer{font-size:20px;font-weight:bold;color:#ff9500;text-align:center;margin:10px 0}
+.badge{display:inline-block;background:#eef8ff;color:#007aff;padding:4px 10px;border-radius:20px;font-size:14px;margin:4px}
+.family{text-align:center;color:#ff2d47;font-size:17px;margin:10px 0;font-weight:bold}
+.checkin{text-align:center;font-size:18px;color:#007aff;margin:10px 0}
+body.dark{background:#121212;color:#eee}
+body.dark .card{background:#1c1c1e}
+body.dark input{background:#2c2c2e;border-color:#444;color:#fff}
+</style>
+</head>
+<body>
+
+<div class="card">
+<h1>🚭 戒烟助手 · 终极版</h1>
+<div class="quote" id="quote"></div>
+<div class="family" id="familyTxt"></div>
+<button onclick="toggleDark()">🌙 切换深色模式</button>
+</div>
+
+<div class="card">
+<h2>基本信息</h2>
+<input type="date" id="startDate">
+<input type="number" id="price" placeholder="每包烟价格（元）">
+<input type="number" id="perDay" placeholder="每天抽几根">
+<button onclick="saveConfig()">保存戒烟信息</button>
+<button class="sec-btn" onclick="resetAll()">重置所有数据</button>
+</div>
+
+<div class="card">
+<h2>📅 每日打卡</h2>
+<div class="checkin" id="checkinStatus"></div>
+<button onclick="doCheckin()">今日打卡 ✅</button>
+</div>
+
+<div class="card">
+<h2>戒烟统计</h2>
+<div class="result" id="stats"></div>
+</div>
+
+<div class="card">
+<h2>身体恢复进度</h2>
+<div class="result" id="health"></div>
+</div>
+
+<div class="card">
+<h2>🎯 烟瘾来袭？</h2>
+<div class="timer" id="timerTxt">00:00</div>
+<button onclick="startCravingTimer()">5分钟抗烟瘾计时</button>
+<button class="sec-btn" onclick="stopCravingTimer()">停止计时</button>
+</div>
+
+<div class="card">
+<h2>🏅 戒烟勋章</h2>
+<div id="badges"></div>
+</div>
+
+<div class="card">
+<h2>🎁 奖励目标</h2>
+<input type="text" id="reward" placeholder="例如：坚持30天买新鞋">
+<button class="sec-btn" onclick="saveReward()">保存目标</button>
+<div id="showReward" style="margin-top:10px"></div>
+</div>
+
+<div class="card">
+<h2>⚠️ 复吸记录</h2>
+<input type="number" id="relapseCount" placeholder="今天抽了几根">
+<button class="danger" onclick="addRelapse()">记录复吸</button>
+<div id="relapseLog" style="margin-top:10px"></div>
+</div>
+
 <script>
-let urgeInterval;
-function $(id){return document.getElementById(id)}
+function load(k){return localStorage.getItem(k)}
+function save(k,v){localStorage.setItem(k,v)}
 
-function startQuit(){
-  let start = new Date($("startDate").value);
-  let now = new Date();
-  let days = Math.floor((now - start) / 86400000);
-  if(days < 0) days = 0;
-
-  let pack = Number($("pricePerPack").value) || 20;
-  let perDay = Number($("cigPerDay").value) || 20;
-  let perCig = pack / 20;
-  let totalCig = days * perDay;
-  let save = totalCig * perCig;
-
-  // 寿命预估（粗略）
-  let lifeAdd = (totalCig * 11 / 60 / 24).toFixed(1);
-
-  $("result").innerHTML = 
-  `✅ 坚持戒烟：${days} 天<br>
-  🚬 少抽香烟：${totalCig} 根<br>
-  💰 已省下：${save.toFixed(2)} 元<br>
-  ⏱ 预计延长寿命：${lifeAdd} 天`;
-
-  showHealth(days);
-  $("urgeBox").style.display = "block";
+window.onload = function(){
+    renderAll()
+    showQuote()
+    showFamily()
+    loadReward()
+    loadRelapse()
+    checkCheckin()
+    setInterval(renderAll,1000)
 }
 
-function showHealth(days){
-  let msg = "";
-  if(days === 0) msg = "刚开始戒烟，身体正在快速恢复中";
-  else if(days <= 1) msg = "20分钟：血压心率恢复正常<br>12小时：血液一氧化碳恢复正常";
-  else if(days <= 2) msg = "24小时：心脏病风险开始下降";
-  else if(days <= 4) msg = "2～3天：呼吸更顺畅，味觉嗅觉开始恢复";
-  else if(days <= 90) msg = "2周～3个月：循环改善，肺功能提升";
-  else if(days <= 365) msg = "1年：心脏病风险减半";
-  else if(days <= 365*5) msg = "5年：中风风险接近不吸烟者";
-  else msg = "10年：肺癌风险减半，身体基本恢复健康";
-
-  $("health").innerHTML = `<strong>身体恢复进度：</strong><br>${msg}`;
+// 随机鼓励
+function showQuote(){
+const q=[
+"烟瘾只持续3-5分钟，忍过去就赢了一次。",
+"你每不抽一根，都是在赢回健康。",
+"戒烟最难的不是开始，是多坚持一天。",
+"你不是失去香烟，是夺回身体。",
+"今天的忍耐，是未来的健康。"
+]
+document.getElementById("quote").textContent = q[Math.floor(Math.random()*q.length)]
 }
 
-function startUrgeTimer(){
-  clearInterval(urgeInterval);
-  let sec = 180;
-  updateTimer(sec);
-  urgeInterval = setInterval(()=>{
-    sec--;
-    if(sec <= 0){
-      clearInterval(urgeInterval);
-      $("urgeTimer").textContent = "烟瘾已过！";
-    }else{
-      updateTimer(sec);
-    }
-  },1000);
+// 家人鼓励语
+function showFamily(){
+const f=[
+"家人希望你健康长寿，少抽烟呀～",
+"孩子/爱人在等你健健康康回家！",
+"为了家人，再坚持一下，你超棒的。",
+"你的健康，是全家最大的福气。",
+"别让烟伤害最爱你的人。"
+]
+document.getElementById("familyTxt").textContent = f[Math.floor(Math.random()*f.length)]
 }
 
-function updateTimer(s){
-  let m = Math.floor(s/60).toString().padStart(2,'0');
-  let ss = (s%60).toString().padStart(2,'0');
-  $("urgeTimer").textContent = `${m}:${ss}`;
+// 每日打卡
+function doCheckin(){
+let today = new Date().toLocaleDateString()
+if(load("lastCheckin") === today){
+alert("今天已经打过卡啦！")
+return
+}
+save("lastCheckin", today)
+let count = Number(load("checkinCount")) || 0
+save("checkinCount", count+1)
+checkCheckin()
+alert("打卡成功！继续坚持！")
+}
+
+function checkCheckin(){
+let today = new Date().toLocaleDateString()
+let last = load("lastCheckin")
+let count = Number(load("checkinCount")) || 0
+let el = document.getElementById("checkinStatus")
+if(last === today){
+el.innerHTML = `✅ 今日已打卡 | 累计打卡 ${count} 天`
+}else{
+el.innerHTML = `⏳ 今日未打卡 | 累计打卡 ${count} 天`
+}
+}
+
+// 保存信息
+function saveConfig(){
+save("start",document.getElementById("startDate").value)
+save("price",document.getElementById("price").value)
+save("perDay",document.getElementById("perDay").value)
+renderAll()
+}
+
+// 计算
+function calc(){
+const start=new Date(load("start")||new Date())
+const now=new Date()
+let days=Math.floor((now-start)/(1000*60*60*24))
+if(days<0)days=0
+const p=Number(load("price"))||20
+const n=Number(load("perDay"))||20
+const per=p/20
+const totalN=days*n
+const money=totalN*per
+const lifeAdd=Math.floor(totalN*11/60/24)
+return {days,totalN,money,lifeAdd}
+}
+
+// 渲染
+function renderAll(){
+const d=calc()
+document.getElementById("stats").innerHTML=`
+坚持戒烟：${d.days} 天<br>
+少抽香烟：${d.totalN} 根<br>
+已节省：${d.money.toFixed(2)} 元<br>
+预计延长生命：${d.lifeAdd} 天
+`
+showHealth()
+showBadges(d.days)
+}
+
+// 健康进度
+function showHealth(){
+const d=calc().days
+let t=""
+if(d>=0)t+="✅ 20分钟：血压心率恢复<br>"
+if(d>=0.5)t+="✅ 12小时：一氧化碳排出<br>"
+if(d>=1)t+="✅ 24小时：心脏病风险下降<br>"
+if(d>=3)t+="✅ 3天：呼吸更顺畅<br>"
+if(d>=90)t+="✅ 3月：肺功能提升<br>"
+if(d>=365)t+="✅ 1年：心脏病风险减半<br>"
+if(d>=1825)t+="✅ 5年：中风风险大幅降低<br>"
+document.getElementById("health").innerHTML=t
+}
+
+// 勋章
+function showBadges(day){
+let b=document.getElementById("badges")
+let r=""
+if(day>=1)r+="<span class='badge'>首日坚持</span>"
+if(day>=7)r+="<span class='badge'>一周戒烟</span>"
+if(day>=30)r+="<span class='badge'>满月坚持</span>"
+if(day>=100)r+="<span class='badge'>百日戒烟</span>"
+b.innerHTML=r
+}
+
+// 烟瘾计时器
+let ct=null
+function startCravingTimer(){
+clearInterval(ct)
+let s=300
+const el=document.getElementById("timerTxt")
+ct=setInterval(()=>{
+const m=String(Math.floor(s/60)).padStart(2,"0")
+const sec=String(s%60).padStart(2,"0")
+el.textContent=m+":"+sec
+s--
+if(s<0){clearInterval(ct);el.textContent="烟瘾已过！你赢了"}
+},1000)
+}
+function stopCravingTimer(){
+clearInterval(ct)
+document.getElementById("timerTxt").textContent="00:00"
+}
+
+// 奖励目标
+function saveReward(){
+save("reward",document.getElementById("reward").value)
+loadReward()
+}
+function loadReward(){
+const r=load("reward")
+if(r)document.getElementById("showReward").textContent="目标："+r
+}
+
+// 复吸记录
+function addRelapse(){
+const c=document.getElementById("relapseCount").value
+if(!c)return
+const log=load("relapse")||""
+const now=new Date().toLocaleDateString()
+save("relapse",log+now+" 抽了 "+c+" 根<br>")
+loadRelapse()
+}
+function loadRelapse(){
+document.getElementById("relapseLog").innerHTML=load("relapse")||"暂无记录"
+}
+
+// 重置
+function resetAll(){
+if(!confirm("确定清空所有记录？"))return
+localStorage.clear()
+location.reload()
+}
+
+// 深色模式
+function toggleDark(){
+document.body.classList.toggle("dark")
+}
+</script>
+</body>
+</html></p >
+</div>
+
+<script>
+const validCodes = [
+"X9K7F2DZ","B5V7S2RG","H3J8D2KF","Z7N2P5DS","M2B7V9FK",
+"Q5S2F7DK","W3J7N2FS","R7D2K9VB","G5B2V7FS","T2S7D9KF",
+"P5N2B7VD","U3J7F2DS","K7D2V9BN","F5S2B7VK","C3N7D2FS",
+"V7K2B9DN","J5D2S7FK","B2N7V9DS","M5K2F7VD","S3D7N2FK",
+"Z5B2V7DN","H7J2D9FS","N3K7B2VD","F5D2S9BK","R7N2V7DK",
+"P3S7F2DN","G5K2B9DS","W2D7V9FK","J5N2S7BD","T3F7K2DS",
+"V5B2D9NK","M7S2F9DK","C3K7N2VD","Z5D2B7FS","K7J2V9DN",
+"F3N7B2DK","R5S2D9VK","B7K2F7DN","U3D7N2FK","G5V2B9DS",
+"W7F2S9DK","N3B7V2DS","P5K2D9FN","S3J7B2DK","T5V2F7DN",
+"J7N2D9BK","C5F2V7DS","M3K7B2FS","R5D2N9VK","B7S2F9DN",
+"V3N7K2DS","F5B2D9SK","W7J2V9DK","N3S7F2BD","P5D2K9VN",
+"G3B7N2FS","K5S2V9DK","T7F2D9BN","J3N7B2VS","R5K2D7FN",
+"M5V2S9BK","C7D2F9NS","B3K7N2DS","F5J2V9BD","W7S2D9KN",
+"P3F7B2DN","V5N2D9SK","G7K2B9FS","T3D7V2FK","J5B2S9DN",
+"R3N7F2DK","M5D2V9BS","K7S2B9FN","C3V7D2NK","F5K2B9DS",
+"W3N7S2DK","B7F2D9VN","P5J2B7DS","T5K2N9FD","G3S7V2DK",
+"R5B2N9FS","V7D2K9BN","J3F7S2DK","N5V2B9DS","M7K2D9FN",
+"C5S2V9BK","F3N7D2BS","W5B2F9DK","P7V2D9KN","T3K7S2FN",
+"R5J2B9DS","G7N2F9DK","V3D7B2KS","J5K2S9FN","B3F7N2DS",
+"M5V2D9SK","C7B2F9NK","K3S7V2DN","F5D2J9BS","W7N2K9FD"
+];
+
+const blacklist = [];
+
+function getDeviceId() {
+  return btoa(navigator.userAgent + screen.width + screen.height);
+}
+
+const bindRecord = JSON.parse(localStorage.getItem('bindRecord')) || {};
+let hasPreviewed = localStorage.getItem('hasPreviewed') === 'true';
+
+window.onload = function(){
+  const code = localStorage.getItem('activeCode');
+  const device = getDeviceId();
+
+  if (hasPreviewed) {
+    const btn = document.getElementById('previewBtn');
+    btn.disabled = true;
+    btn.innerText = '预览次数已用完';
+  }
+
+  if(code && bindRecord[code] === device && !blacklist.includes(code) && validCodes.includes(code)){
+    document.getElementById('activatePanel').style.display = 'none';
+    document.getElementById('mainContent').style.display = 'block';
+  }
+}
+
+function doActive(){
+  const code = document.getElementById('codeInput').value.trim();
+  const tip = document.getElementById('tip');
+  const device = getDeviceId();
+
+  if(!code){ tip.innerText='请输入激活码'; return; }
+  if(blacklist.includes(code)){ tip.innerText='激活码已禁用'; return; }
+  if(!validCodes.includes(code)){ tip.innerText='激活码无效'; return; }
+  if(bindRecord[code] && bindRecord[code]!==device){ tip.innerText='已绑定其他设备'; return; }
+
+  bindRecord[code] = device;
+  localStorage.setItem('bindRecord', JSON.stringify(bindRecord));
+  localStorage.setItem('activeCode', code);
+
+  tip.className = 'tip success';
+  tip.innerText = '激活成功';
+  setTimeout(()=>{
+    document.getElementById('activatePanel').style.display = 'none';
+    document.getElementById('mainContent').style.display = 'block';
+  },500);
+}
+
+function startPreview(){
+  if (hasPreviewed) return;
+
+  hasPreviewed = true;
+  localStorage.setItem('hasPreviewed', 'true');
+  const btn = document.getElementById('previewBtn');
+  btn.disabled = true;
+  btn.innerText = '预览次数已用完';
+
+  document.getElementById('activatePanel').style.display = 'none';
+  document.getElementById('mainContent').style.display = 'block';
+
+  setTimeout(()=>{
+    document.getElementById('mainContent').style.display = 'none';
+    document.getElementById('activatePanel').style.display = 'flex';
+    document.getElementById('tip').innerText = '预览结束，请激活后使用';
+  }, 5000);
 }
 </script>
 </body>
